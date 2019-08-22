@@ -9,7 +9,10 @@ In the context of precise object localization, 6 plausible models have been hypo
 
 ![Alt text](./pictures/localization_models.png)
 
+## Requirements
+All code was written and tested on MATLAB 2018b. Specific toolboxes from Mathworks may be required. 
+
 ## Data Availability:
-Data structure for Cheung et al. 2019 hosted on Hires Lab Dropbox at (https://www.dropbox.com/s/0oxsc4uix5zd9dl/BV.mat).
+Data structures for Cheung et al. 2019 hosted on Hires Lab Dropbox at (https://www.dropbox.com/s/0oxsc4uix5zd9dl).
 
 
