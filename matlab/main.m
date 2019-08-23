@@ -1,12 +1,29 @@
-%%__main__all analysis below is built off a data structure of 200
-%%consecutive best performing trials in an object localization task. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Below are scripts for generating the main figures in Cheung et al. 2019
+
+% Raw data: 
+% behavioral_structure - structure packaging whisker variables and touch 
+% information for mice expert in our head-fixed object localization task. 
+% data is built off 200 consecutive best performing trials. 
+
+% localization_task_raw - folder containing behavioral data acquired from 
+% each training session in an anteroposterior localization task 
+
+% decomposed_task_raw - folder containing behavioral data acquired from 
+% each training session in our angle/radial decomposed task. 3 sessions are
+% captured for each mouse. 
+
+% code finalized 190822
+% contact jacheung@usc.edu or shires@usc.edu.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Reference and load behavioral data structure
 close all; clear; clc; 
-%% Load behavioral data matrix 
-behavioralDataLocation = 'C:\Users\jacheung\Dropbox\LocalizationBehavior\DataStructs\publication\localization_task_raw';
-decomposed_behavior_directory = 'C:\Users\jacheung\Dropbox\LocalizationBehavior\DataStructs\publication\decomposed_task_raw';
-dataStructLocation = 'C:\Users\jacheung\Dropbox\LocalizationBehavior\DataStructs\publication';
-cd(dataStructLocation)
-load('behavioral_structure.mat') 
+publication_data_location = 'C:\Users\jacheung\Dropbox\LocalizationBehavior\DataStructs\publication';
+behavioralDataLocation = [publication_data_location filesep 'localization_task_raw'];
+decomposed_behavior_directory = [publication_data_location filesep 'decomposed_task_raw'];
+dataStructLocation = publication_data_location;
+load([dataStructLocation filsep 'behavioral_structure.mat'])
 
 %% Fig 2 Head-Fixed Task and Performance 
 %Fig 2E reaction time (first touch to first lick) of population
@@ -74,8 +91,8 @@ touchOrder = 'all';
 numTouchesLickProbability(BV,touchDirection,touchOrder)
 
 %% Fig 6 Mice Discriminate Location Using Features Correlated to Azimuthal Angle Rather Than Radial Distance
-%uses directory housing behavioral files to generate plots B and D shown 
-% in fig 6 of Cheung et al. 2019
+%uses directory housing decomposed task behavioral files to generate 
+%plots B and D shown in fig 6 of Cheung et al. 2019
 decomposed_task_behavior(decomposed_behavior_directory)
 
 %% Fig 7 Choice Can Be Best Predicted by a Combination of Touch Count and Whisking Midpoint at Touch
@@ -85,27 +102,30 @@ variable_options = fields(mdl.input); %list of options available;
 plot_variable = variable_options{2}; %vary feature here
 plot_decision_boundary(mdl,plot_variable) %plot variable is a string indicating which feature is available
 
-%fig 7D
+%fig 7D scatter of model goodness of fit between hilbert and angle model
 mcc_scatters(mdl,BV)
 
-%fig 7E 
+%fig 7E scatter of model goodness of fit between decomposed hilbert and angle model
 load([dataStructLocation filesep 'model_7E.mat']) %hilbert component model 
 mcc_scatters(mdl,BV)
 
-%fig 7F 
+%fig 7F scatter of model goodness of fit between decomposed hilbert and
+%angle model with counts
 load([dataStructLocation filesep 'model_7FGH.mat']) %counts+hilbert component model 
 mcc_scatters(mdl,BV)
 
 
-%Fig 7G prediction heat map 
+%Fig 7G prediction heat map. labels for each column is outputted below
+%under predictionMatrix.columnNames
 predictionMatrix = outcomes_heatmap(BV,mdl.output.motor_preds);
 predictionMatrix.columnNames
 
 %Fig 7H prediction heat map comaparison
 outcomes_heatmap_comparator(predictionMatrix)
 
-%Fig 7IJ 
-load([dataStructLocation filesep 'model_7IJ.mat']) %counts, counts+midpoint, counts+angle model 
+%Fig 7IJ model optimal (predicting trial type) of counts+midpoint and 
+%counts+angle against mouse choice
+load([dataStructLocation filesep 'model_7IJ.mat']) 
 model_psychometric_comparison(mdl,BV) %Figure 7I
 model_precision_comparison(mdl,BV) %Figure 7J
 
