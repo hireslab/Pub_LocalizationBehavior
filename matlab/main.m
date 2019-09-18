@@ -23,7 +23,7 @@ publication_data_location = 'C:\Users\jacheung\Dropbox\LocalizationBehavior\Data
 behavioralDataLocation = [publication_data_location filesep 'localization_task_raw'];
 decomposed_behavior_directory = [publication_data_location filesep 'decomposed_task_raw'];
 dataStructLocation = publication_data_location;
-load([dataStructLocation filsep 'behavioral_structure.mat'])
+load([dataStructLocation filesep 'behavioral_structure.mat'])
 
 %% Fig 2 Head-Fixed Task and Performance 
 %Fig 2E reaction time (first touch to first lick) of population
